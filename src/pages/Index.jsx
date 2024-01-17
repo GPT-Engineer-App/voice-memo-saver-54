@@ -11,8 +11,16 @@ const Index = () => {
   const mediaRecorderRef = useRef(null);
   const audioRef = useRef(null);
 
-  const startRecording = () => {
-    // ... (No changes in startRecording function)
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorderRef.current = new MediaRecorder(stream);
+      mediaRecorderRef.current.addEventListener("dataavailable", handleDataAvailable);
+      mediaRecorderRef.current.start();
+      setIsRecording(true);
+    } catch (err) {
+      console.error("Could not start recording", err);
+    }
   };
 
   const handleDataAvailable = (event) => {
