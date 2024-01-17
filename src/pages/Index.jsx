@@ -36,13 +36,12 @@ const Index = () => {
   };
 
   const stopRecording = () => {
-    const stopRecording = () => {
-      if (mediaRecorderRef.current) {
-        mediaRecorderRef.current.stop();
-        mediaRecorderRef.current.removeEventListener("dataavailable", handleDataAvailable);
-        setIsRecording(false);
-      }
-    };
+    if (mediaRecorderRef.current) {
+      mediaRecorderRef.current.stop();
+      mediaRecorderRef.current.stream.getTracks().forEach((track) => track.stop());
+      mediaRecorderRef.current.removeEventListener("dataavailable", handleDataAvailable);
+      setIsRecording(false);
+    }
   };
 
   const downloadRecording = (recording) => {
