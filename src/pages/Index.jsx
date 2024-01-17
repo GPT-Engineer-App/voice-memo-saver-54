@@ -36,7 +36,13 @@ const Index = () => {
   };
 
   const stopRecording = () => {
-    // ... (No changes in stopRecording function)
+    const stopRecording = () => {
+      if (mediaRecorderRef.current) {
+        mediaRecorderRef.current.stop();
+        mediaRecorderRef.current.removeEventListener("dataavailable", handleDataAvailable);
+        setIsRecording(false);
+      }
+    };
   };
 
   const downloadRecording = (recording) => {
