@@ -2,9 +2,14 @@ import React, { useState, useRef } from "react";
 import { Container, Button, VStack, Heading, List, ListItem, IconButton } from "@chakra-ui/react";
 import { FaMicrophone, FaStop, FaDownload, FaTrash } from "react-icons/fa";
 
+import { useEffect } from "react";
+
 const Index = () => {
-  // Using state hooks to manage the list of recordings and recording state
-  const [recordings, setRecordings] = useState([]);
+  // Initialize state with recordings from local storage if available
+  const [recordings, setRecordings] = useState(() => {
+    const savedRecordings = localStorage.getItem("recordings");
+    return savedRecordings ? JSON.parse(savedRecordings) : [];
+  });
   const [isRecording, setIsRecording] = useState(false);
 
   // useRef to reference the audio element and mediaRecorder instance
@@ -30,7 +35,13 @@ const Index = () => {
   // Function to handle data available event after recording
   const handleDataAvailable = (event) => {
     if (event.data.size > 0) {
-      setRecordings((prevRecordings) => [...prevRecordings, URL.createObjectURL(event.data)]);
+      const newRecordingUrl = URL.createObjectURL(event.data);
+      setRecordings((prevRecordings) => {
+        const updatedRecordings = [...prevRecordings, newRecordingUrl];
+        // Store the updated recordings list in local storage
+        localStorage.setItem("recordings", JSON.stringify(updatedRecordings));
+        return updatedRecordings;
+      });
     }
   };
 
@@ -58,7 +69,12 @@ const Index = () => {
 
   // Function to delete a recording
   const deleteRecording = (src) => {
-    setRecordings((prevRecordings) => prevRecordings.filter((recording) => recording !== src));
+    setRecordings((prevRecordings) => {
+      const updatedRecordings = prevRecordings.filter((recording) => recording !== src);
+      // Update the local storage with the new list of recordings
+      localStorage.setItem("recordings", JSON.stringify(updatedRecordings));
+      return updatedRecordings;
+    });
     URL.revokeObjectURL(src); // Clean up memory by revoking the object URL
   };
 
