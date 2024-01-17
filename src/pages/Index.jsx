@@ -67,13 +67,15 @@ const Index = () => {
   };
 
   return (
-    <Container centerContent>
-      <VStack spacing={4}>
-        <Heading>Voice Memo App</Heading>
-        <Button leftIcon={isRecording ? <FaStop /> : <FaMicrophone />} colorScheme="teal" onClick={isRecording ? stopRecording : startRecording}>
+    <Container centerContent p={4}>
+      <VStack spacing={6} w="full">
+        <Heading color="brand.500" p={4} bg="brand.800" borderRadius="md" boxShadow="base">
+          Voice Memo App
+        </Heading>
+        <Button leftIcon={isRecording ? <FaStop /> : <FaMicrophone />} colorScheme="red" size="lg" boxShadow="md" onClick={isRecording ? stopRecording : startRecording}>
           {isRecording ? "Stop Recording" : "Start Recording"}
         </Button>
-        <List>
+        <List w="full" spacing={3}>
           {recordings.map((recording, index) => (
             <ListItem key={recording.url} display="flex" alignItems="center" justifyContent="space-between">
               <audio src={recording.url} controls />
