@@ -45,7 +45,7 @@ const Index = () => {
   };
 
   const downloadRecording = (recording) => {
-    const blob = new Blob([recording.url], { type: "audio/mp3" });
+    const blob = new Blob([recording.url], { type: "audio/webm" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.style.display = "none";
