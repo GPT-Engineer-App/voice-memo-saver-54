@@ -1,4 +1,5 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import Header from "./components/Header.jsx";
 import Index from "./pages/Index.jsx";
 
 function App() {
